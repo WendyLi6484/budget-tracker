@@ -7,7 +7,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>记账本</title>
-  <style>/* ========== CSS 变量 ========== */
+  <style>
+/* ========== CSS 变量 ========== */
 :root {
   --primary: #2563EB;
   --primary-light: rgba(37,99,235,0.08);
@@ -338,6 +339,7 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); colo
 .voice-wave .bar:nth-child(4) { height: 14px; animation-delay: 0.3s; }
 .voice-wave .bar:nth-child(5) { height: 8px; animation-delay: 0.4s; }
 @keyframes waveAnim { 0%,100% { transform: scaleY(1); } 50% { transform: scaleY(0.4); } }
+
 </style>
 </head>
 <body>
@@ -652,7 +654,8 @@ html, body { height: 100%; font-family: var(--font); background: var(--bg); colo
   <div class="toast" id="toast"></div>
 
 </div>
-<script>// ========== 数据层 ==========
+<script>
+// ========== 数据层 ==========
 var RECORDS_KEY = 'budget_records';
 var SETTINGS_KEY = 'budget_settings';
 var RECURRING_KEY = 'budget_recurring';
@@ -1835,9 +1838,29 @@ function confirmClear() {
 }
 
 // ========== 初始化 ==========
+// ========== 初始数据迁移 ==========
+var SEED_RECORDS = [
+  { id: 'seed_1', type: 'expense', amount: 305.66, category: 'household', date: '2026-07-07', note: '', createdAt: Date.now() - 7 * 86400000 },
+  { id: 'seed_2', type: 'expense', amount: 239.00, category: 'household', date: '2026-07-07', note: '', createdAt: Date.now() - 7 * 86400000 },
+  { id: 'seed_3', type: 'income', amount: 30.00, category: 'other_income', date: '2026-07-07', note: '', createdAt: Date.now() - 7 * 86400000 },
+  { id: 'seed_4', type: 'expense', amount: 5.60, category: 'other', date: '2026-07-07', note: '', createdAt: Date.now() - 7 * 86400000 },
+  { id: 'seed_5', type: 'expense', amount: 12.00, category: 'groceries', date: '2026-07-07', note: '', createdAt: Date.now() - 7 * 86400000 },
+  { id: 'seed_6', type: 'expense', amount: 91.00, category: 'groceries', date: '2026-07-07', note: '', createdAt: Date.now() - 7 * 86400000 },
+  { id: 'seed_7', type: 'expense', amount: 183.00, category: 'dining', date: '2026-07-07', note: '', createdAt: Date.now() - 7 * 86400000 }
+];
+
+function initSeedData() {
+  var existing = getRecords();
+  if (existing.length === 0) {
+    saveRecords(SEED_RECORDS);
+  }
+}
+
 (function init() {
+  initSeedData();
   switchTab('home');
 })();
+
 </script>
 </body>
 </html>
